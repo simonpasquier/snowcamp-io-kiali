@@ -20,8 +20,8 @@
 # app.httpbin service. Requests not matching the conditions will be
 # answered with 404.
 #
-# Note that the gateway and virtual service are created in the istio-system namespace (same
-# as the Istio gateway) while the application runs in the httpbin namespace.
+# Note that the gateway and virtual service should be created in the same
+# namespace. It can be the namespace of the application or the Istio namespace.
 #
 # See app.yml to deploy the httpbin application and expose it as the app.httpbin service.
 #
@@ -29,7 +29,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: httpbin-gateway
-  namespace: istio-system
+  namespace: httpbin
 spec:
   selector:
     istio: ingressgateway
@@ -45,7 +45,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: httpbin
-  namespace: istio-system
+  namespace: httpbin
 spec:
   hosts:
   - "httpbin.snowcamp.example.com"
