@@ -23,6 +23,7 @@ spec:
     metadata:
       annotations:
         prometheus.io/scrape: "true"
+        prometheus.io/port: "9080"
       labels:
         app: details
         version: v2
@@ -30,7 +31,7 @@ spec:
       containers:
       - name: details
         image: quay.io/simonpasquier/go-bookinfo-details:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         args:
         - -listen-address
         - :9080
