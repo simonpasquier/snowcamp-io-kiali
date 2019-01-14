@@ -123,3 +123,7 @@ kubectl port-forward -n istio-system svc/grafana 3000
 kubectl port-forward -n istio-system svc/tracing 16686:80
 ```
 
+## License
+
+Apache License 2.0, see [LICENSE](https://github.com/simonpasquier/snowcamp-io-kiali/blob/master/LICENSE).
+
