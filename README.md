@@ -38,7 +38,8 @@ helm template install/kubernetes/helm/istio --name istio \
     --set kiali.enabled=true --set kiali.dashboard.passphrase=supersecret --set kiali.tag=v0.12 \
     --set prometheus.tag=v2.5.0 \
     --set grafana.enabled=true --set grafana.image.tag=5.4.2 \
-    --set tracing.enabled=true \
+    # This enables tracing with 25% of requests sampled.
+    --set tracing.enabled=true --set pilot.traceSampling=25.0 \
     > /tmp/istio.yml
 kubectl create namespace istio-system
 kubectl apply -f /tmp/istio.yml
@@ -76,8 +77,11 @@ prometheus-5b8d8fcbdc-xzjzx               1/1       Running     0          149m
 
 ### Access the Kiali UI
 
+In a separate Shell window, run:
+
+
 ```bash
-kubectl port-forward $(kubectl get pods -l app=kiali -o jsonpath='{ .items[0].metadata.name }') 20001
+kubectl port-forward svc/kiali 20001
 ```
 
 Then go to http://localhost:20001/ to access the Kiali dashboard.
@@ -108,3 +112,14 @@ kubectl apply -f ./bookinfo/01_initial_setup/
 ### Update the details service
 
 TBC
+
+### Access the other dashboards
+
+In a separate Shell windows, run:
+
+```bash
+kubectl port-forward -n istio-system svc/prometheus 9090
+kubectl port-forward -n istio-system svc/grafana 3000
+kubectl port-forward -n istio-system svc/tracing 16686:80
+```
+
