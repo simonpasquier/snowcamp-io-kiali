@@ -93,12 +93,20 @@ Lets deploy a very simple application composed of only one service.
 Run the commands from this project's directory.
 
 ```bash
+kubectl create namespace httpbin
+# Enable auto-injection of the proxy sidecar
+kubectl label namespace httpbin istio-injection=enabled
 kubectl apply -n httpbin -f ./httpbin/
+```
+
+```bash
+curl -i http://httpbin.snowcamp.example.com/headers
+curl -i http://httpbin.snowcamp.example.com/status/200
 ```
 
 ### Deploy the bookinfo application
 
-This deploys a more complex application. The initial revision will direct traffic to the `v1` of each microservice.
+This deploys a more complex application composed of 3 microservics. The initial revision will direct traffic to the `v1` of each microservice.
 
 Run the commands from this project's directory.
 
