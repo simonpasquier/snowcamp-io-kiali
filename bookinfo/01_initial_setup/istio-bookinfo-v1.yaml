@@ -1,4 +1,6 @@
-# The following DestinationRule definitions split Kubernetes native services into subsets based on their version label.
+# The following DestinationRule definitions split the Kubernetes native services into subsets based on their version label.
+#
+# The productpage destination
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -11,6 +13,7 @@ spec:
     labels:
       version: v1
 ---
+# The reviews destination
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -23,6 +26,7 @@ spec:
     labels:
       version: v1
 ---
+# The ratings destination
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -35,6 +39,7 @@ spec:
     labels:
       version: v1
 ---
+# The details destination
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -47,7 +52,9 @@ spec:
     labels:
       version: v1
 ---
-# The following VirtualService definitions route all traffic to v1 of each microservice.
+# The following VirtualService definitions route all the traffic to v1 of each microservice.
+#
+# The productpage service
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -62,6 +69,7 @@ spec:
         host: productpage.bookinfo.svc.cluster.local
         subset: v1
 ---
+# The reviews service
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -76,6 +84,7 @@ spec:
         host: reviews.bookinfo.svc.cluster.local
         subset: v1
 ---
+# The ratings service
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -90,6 +99,7 @@ spec:
         host: ratings.bookinfo.svc.cluster.local
         subset: v1
 ---
+# The details service
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -104,7 +114,7 @@ spec:
         host: details.bookinfo.svc.cluster.local
         subset: v1
 ---
-# Ingress gateway that exposes the application to the Internet.
+# The ingress gateway that exposes the application to the Internet.
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -112,7 +122,7 @@ metadata:
   namespace: bookinfo
 spec:
   selector:
-    istio: ingressgateway # use istio default controller
+    istio: ingressgateway # use the istio default controller
   servers:
   - port:
       number: 80
@@ -121,7 +131,7 @@ spec:
     hosts:
     - "bookinfo.snowcamp.example.com"
 ---
-# Virtual service definition for the ingress gateway.
+# The virtual service definition that exposes the productpage application to the Internet.
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
