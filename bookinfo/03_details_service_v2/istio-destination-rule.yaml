@@ -1,3 +1,4 @@
+# Update the details destination rule to know about the details v2 application
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

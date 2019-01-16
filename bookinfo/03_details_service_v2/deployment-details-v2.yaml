@@ -1,0 +1,28 @@
+# The kubernetes deployment for the details v2 application.
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: details-v2
+  namespace: bookinfo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        # Tell Prometheus to scrape the application's metrics
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9080"
+      labels:
+        app: details
+        version: v2
+    spec:
+      containers:
+      - name: details
+        image: quay.io/simonpasquier/go-bookinfo-details:latest
+        imagePullPolicy: Always
+        args:
+        - -listen-address
+        - :9080
+        ports:
+        - containerPort: 9080
+---

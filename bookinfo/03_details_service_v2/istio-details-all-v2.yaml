@@ -1,3 +1,4 @@
+# Send all traffic to v2 of the details application.
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

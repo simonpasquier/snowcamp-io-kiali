@@ -1,4 +1,4 @@
-# Register Google API services as an external service.
+# Register the Google API services as an external service.
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -14,7 +14,7 @@ spec:
   resolution: DNS
   location: MESH_EXTERNAL
 ---
-# Allow applications managed by Istio to connect to Google API services.
+# Allow the applications managed by Istio to connect to Google API services.
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
