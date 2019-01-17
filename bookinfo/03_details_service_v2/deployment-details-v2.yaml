@@ -23,6 +23,8 @@ spec:
         args:
         - -listen-address
         - :9080
+        - -cache-expiry
+        - 5s
         ports:
         - containerPort: 9080
 ---
