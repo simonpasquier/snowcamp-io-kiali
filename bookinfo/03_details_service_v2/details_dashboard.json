@@ -45,10 +45,12 @@
       },
       "id": 4,
       "legend": {
+        "alignAsTable": false,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -105,7 +107,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -127,7 +129,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "fill": 1,
+      "fill": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
@@ -165,11 +167,18 @@
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.9, sum by (job, le) (rate(details_incoming_requests_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (job, le) (rate(details_incoming_requests_duration_seconds_bucket[5m])))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "p90",
+          "legendFormat": "p95",
           "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum by (job, le) (rate(details_incoming_requests_duration_seconds_bucket[5m])))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "p99",
+          "refId": "D"
         },
         {
           "expr": "histogram_quantile(1, sum by (job, le) (rate(details_incoming_requests_duration_seconds_bucket[5m])))",
@@ -203,7 +212,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -280,8 +289,15 @@
           "format": "time_series",
           "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "errors",
+          "legendFormat": "5xx",
           "refId": "A"
+        },
+        {
+          "expr": "sum(rate(details_outgoing_requests_duration_seconds_count{code=~\"4.+\"}[5m]))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "4xx",
+          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -308,7 +324,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -330,7 +346,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "fill": 1,
+      "fill": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
@@ -368,11 +384,18 @@
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.9, sum by (job, le) (rate(details_outgoing_requests_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (job, le) (rate(details_outgoing_requests_duration_seconds_bucket[5m])))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "p90",
+          "legendFormat": "p95",
           "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum by (job, le) (rate(details_outgoing_requests_duration_seconds_bucket[5m])))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "p99",
+          "refId": "D"
         },
         {
           "expr": "histogram_quantile(1, sum by (job, le) (rate(details_outgoing_requests_duration_seconds_bucket[5m])))",
@@ -380,12 +403,6 @@
           "intervalFactor": 1,
           "legendFormat": "max",
           "refId": "C"
-        },
-        {
-          "expr": "",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -408,11 +425,12 @@
       },
       "yaxes": [
         {
+          "decimals": null,
           "format": "s",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -509,7 +527,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -593,7 +611,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -677,7 +695,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -734,5 +752,5 @@
   "timezone": "",
   "title": "details service",
   "uid": "33A0v2wmz",
-  "version": 8
+  "version": 12
 }
