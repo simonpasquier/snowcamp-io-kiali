@@ -28,17 +28,15 @@ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
 This uses the Helm client to render the Kubernetes manifest locally.
 
 ```bash
+# LoadBalancer requires a Kubernetes cluster that supports this flavor. Set it to NodePort otherwise.
+# You can change the Kiali passphrase to whatever you want.
+# This enables tracing with 25% of requests sampled.
 helm template install/kubernetes/helm/istio --name istio \
-    # The namespace where Istio services will be created.
     --namespace istio-system \
-    # LoadBalancer requires a Kubernetes cluster that supports this flavor.
-    # Set it to NodePort otherwise.
     --set gateways.enabled=true --set gateways.istio-ingressgateway.type=LoadBalancer \
-    # You can change the passphrase to whatever you want.
     --set kiali.enabled=true --set kiali.dashboard.passphrase=supersecret --set kiali.tag=v0.12 \
     --set prometheus.tag=v2.5.0 \
     --set grafana.enabled=true --set grafana.image.tag=5.4.2 \
-    # This enables tracing with 25% of requests sampled.
     --set tracing.enabled=true --set pilot.traceSampling=25.0 \
     > /tmp/istio.yml
 kubectl create namespace istio-system
