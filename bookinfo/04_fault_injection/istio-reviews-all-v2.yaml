@@ -1,0 +1,14 @@
+# Send all traffic to v2 of the reviews application.
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+  namespace: bookinfo
+spec:
+  hosts:
+    - reviews.bookinfo.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: reviews.bookinfo.svc.cluster.local
+        subset: v2
