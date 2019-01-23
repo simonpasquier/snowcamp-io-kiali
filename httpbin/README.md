@@ -43,8 +43,8 @@ Generate some errors.
 
 ```bash
 for i in $(seq 0 10); do
-curl -i http://httpbin.snowcamp.example.com/status/500
-sleep 1
+  curl -i http://httpbin.snowcamp.example.com/status/500
+  sleep 1
 done
 ```
 
