@@ -1,4 +1,4 @@
-# Add a delay of 2 seconds to all HTTP requests to v1 of the ratings service.
+# Add a delay of 2 seconds for half of the HTTP requests to v1 of the ratings service.
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -10,7 +10,7 @@ spec:
   http:
   - fault:
       delay:
-        percent: 100
+        percent: 50
         fixedDelay: 2s
     route:
     - destination:

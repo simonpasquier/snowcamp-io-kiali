@@ -92,8 +92,46 @@ Let's shift all traffic to v2.
 kubectl apply -f bookinfo/03_details_service_v2/istio-details-all-v2.yaml
 ```
 
+Refresh your browser's page and see that the details section has changed.
 
-## Fault injection
+## Fault injection and remediation
+
+### Delays
+
+Switch all traffic to v2 of the reviews service.
+
+```bash
+kubectl apply -f bookinfo/04_fault_injection/istio-reviews-all-v2.yaml
+```
+
+Then add a 2 seconds delay to half of the requests to the ratings service.
+
+```bash
+kubectl apply -f bookinfo/04_fault_injection/istio-ratings-v1-inject-delay.yaml
+```
+
+Check the latency graph for the `ratings-v1` workload. You can switch between "Reported from Destination" and "Reported from Source" and notice the differences.
+
+### Timeouts
+
+Add a 1 second timeout to all requests to v2 of the reviews service.
+
+```bash
+kubectl apply -f bookinfo/05_timeouts/istio-reviews-v1-timeouts.yaml
+```
+
+Combined with the delay injected before, we start to see some errors between productpage and ratings.
+
+
+### Retries
+
+To alleviate the delays, we can ask Istio/Envoy to retry requests on the behalf of the service.
+
+```bash
+kubectl apply -f bookinfo/06_retries/istio-reviews-all-v2-with-retries.yaml
+```
+
+Check with the Kiali graph that most of the errors go away.
 
 ## Cleanup
 
