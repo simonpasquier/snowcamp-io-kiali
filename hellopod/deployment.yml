@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellopod
+  labels:
+    app: hellopod
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: hellopod
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hellopod
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hellopod
+    spec:
+      containers:
+      - image: quay.io/simonpasquier/hellopod
+        imagePullPolicy: Always
+        name: hellopod
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 1
