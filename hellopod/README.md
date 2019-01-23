@@ -31,3 +31,9 @@ curl http://$HELLOPOD_IP:8080/quit
 # Fail hard a random pod and check that the pod's status is going to Error then CrashLoopBackOff and Ready.
 curl http://$HELLOPOD_IP:8080/fail
 ```
+
+Cleanup everything
+
+```bash
+kubectl delete deployments,services -l app=hellopod -n default
+```

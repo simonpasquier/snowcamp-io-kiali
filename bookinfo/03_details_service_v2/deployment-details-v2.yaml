@@ -12,6 +12,7 @@ spec:
         # Tell Prometheus to scrape the application's metrics
         prometheus.io/scrape: "true"
         prometheus.io/port: "9080"
+        prometheus.io/scheme: "9080"
       labels:
         app: details
         version: v2

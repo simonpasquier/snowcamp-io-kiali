@@ -81,7 +81,7 @@ prometheus-5b8d8fcbdc-xzjzx               1/1       Running     0          149m
 
 ### Access the Kiali UI
 
-In a separate Shell window, run:
+In a separate Shell terminal, run:
 
 
 ```bash
@@ -90,50 +90,23 @@ kubectl port-forward svc/kiali 20001
 
 Then go to http://localhost:20001/ to access the Kiali dashboard.
 
-### Deploy the httpbin application
-
-Lets deploy a very simple application composed of only one service.
-
-Run the commands from this project's directory.
-
-```bash
-kubectl create namespace httpbin
-# Enable auto-injection of the proxy sidecar
-kubectl label namespace httpbin istio-injection=enabled
-kubectl apply -n httpbin -f ./httpbin/
-```
-
-```bash
-curl -i http://httpbin.snowcamp.example.com/headers
-curl -i http://httpbin.snowcamp.example.com/status/200
-```
-
-### Deploy the bookinfo application
-
-This deploys a more complex application composed of 3 microservics. The initial revision will direct traffic to the `v1` of each microservice.
-
-Run the commands from this project's directory.
-
-```bash
-kubectl create namespace bookinfo
-# Enable auto-injection of the proxy sidecar
-kubectl label namespace bookinfo istio-injection=enabled
-kubectl apply -f ./bookinfo/01_initial_setup/
-```
-
-### Update the details service
-
-TBC
-
 ### Access the other dashboards
 
-In a separate Shell windows, run:
+In separate terminals, run:
 
 ```bash
 kubectl port-forward -n istio-system svc/prometheus 9090
 kubectl port-forward -n istio-system svc/grafana 3000
 kubectl port-forward -n istio-system svc/tracing 16686:80
 ```
+
+### Simple application scenario
+
+See the [httpbin](https://github.com/simonpasquier/snowcamp-io-kiali/blob/master/httpbin/README.md) scenario.
+
+### Microservices scenario
+
+See the [bookinfo](https://github.com/simonpasquier/snowcamp-io-kiali/blob/master/bookinfo/README.md) scenario.
 
 ## License
 
