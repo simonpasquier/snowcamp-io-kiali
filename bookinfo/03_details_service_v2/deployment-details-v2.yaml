@@ -5,14 +5,15 @@ metadata:
   name: details-v2
   namespace: bookinfo
 spec:
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       annotations:
+        sidecar.istio.io/inject: "true"
         # Tell Prometheus to scrape the application's metrics
         prometheus.io/scrape: "true"
         prometheus.io/port: "9080"
-        prometheus.io/scheme: "http"
+        kiali.io/runtimes: "go,go-bookinfo-details"
       labels:
         app: details
         version: v2

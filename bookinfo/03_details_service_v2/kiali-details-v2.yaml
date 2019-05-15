@@ -1,0 +1,32 @@
+apiVersion: "monitoring.kiali.io/v1alpha1"
+kind: MonitoringDashboard
+metadata:
+  name: go-bookinfo-details
+spec:
+  runtime: Go
+  title: Google Book API
+  items:
+  - chart:
+      name: "Requests rate"
+      unit: "req/s"
+      spans: 6
+      metricName: "details_outgoing_requests_duration_seconds_count"
+      dataType: "rate"
+      aggregator: "sum"
+      aggregations:
+      - label: "pod_name"
+        displayName: "Pod"
+      - label: "version"
+        displayName: "Version"
+  - chart:
+      name: "Latency"
+      unit: "seconds"
+      spans: 6
+      metricName: "details_outgoing_requests_duration_seconds"
+      dataType: "histogram"
+      aggregator: "sum"
+      aggregations:
+      - label: "pod_name"
+        displayName: "Pod"
+      - label: "version"
+        displayName: "Version"

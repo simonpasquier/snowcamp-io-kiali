@@ -129,7 +129,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "bookinfo.snowcamp.example.com"
+    - "bookinfo.demo.example.com"
 ---
 # The virtual service definition that exposes the productpage application to the Internet.
 apiVersion: networking.istio.io/v1alpha3
@@ -139,7 +139,7 @@ metadata:
   namespace: bookinfo
 spec:
   hosts:
-  - "bookinfo.snowcamp.example.com"
+  - "bookinfo.demo.example.com"
   gateways:
   - bookinfo-gateway
   http:

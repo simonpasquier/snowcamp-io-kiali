@@ -13,7 +13,7 @@
 #   limitations under the License.
 #
 # This specification defines that the default Istio ingress gateway should
-# handle traffic for httpbin.snowcamp.example.com:80.
+# handle traffic for httpbin.demo.example.com:80.
 #
 # The virtual service tells the Istio ingress gateway to forward requests
 # matching the /headers and /status/* locations to the (Kubernetes)
@@ -35,7 +35,7 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - "httpbin.snowcamp.example.com"
+    - "httpbin.demo.example.com"
     port:
       name: http
       number: 80
@@ -48,7 +48,7 @@ metadata:
   namespace: httpbin
 spec:
   hosts:
-  - "httpbin.snowcamp.example.com"
+  - "httpbin.demo.example.com"
   gateways:
   - httpbin-gateway
   http:

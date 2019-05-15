@@ -8,6 +8,16 @@ Run the commands from the project's base directory.
 kubectl create namespace httpbin
 kubectl apply -n httpbin -f ./httpbin/
 ```
+For OpenShift, run:
+
+```bash
+oc new-project httpbin
+oc adm policy add-scc-to-user anyuid -z default -n httpbin
+oc adm policy add-scc-to-user privileged -z default -n httpbin
+oc expose service istio-ingressgateway --hostname=httpbin.demo.example.com --port=80 -n istio-system
+oc apply -n httpbin -f ./httpbin/
+```
+
 
 Check that the pod has 1 container only.
 
@@ -34,7 +44,7 @@ kubectl get pods -n httpbin
 Generate some load.
 
 ```bash
-loadtest -rate 5 -uri http://httpbin.snowcamp.example.com/headers -uri http://httpbin.snowcamp.example.com/status/200
+loadtest -rate 5 -uri http://httpbin.demo.example.com/headers -uri http://httpbin.demo.example.com/status/200
 ```
 
 Explore the Kiali graph page and the different dashboards.
@@ -43,7 +53,7 @@ Generate some errors.
 
 ```bash
 for i in $(seq 0 10); do
-  curl -i http://httpbin.snowcamp.example.com/status/500
+  curl -i http://httpbin.demo.example.com/status/500
   sleep 1
 done
 ```

@@ -1,0 +1,15 @@
+# The following DestinationRule definition enforces mTLS traffic between all services of the bookinfo namespace.
+#
+# DestinationRule definitions aren't cumulative so if a more fine-grained DR
+# forgets to set trafficPolicy.mtls.mode to ISTIO_MUTUAL, the traffic will be
+# blocked by the proxy.
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "default"
+  namespace: "bookinfo"
+spec:
+  host: "*.bookinfo.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
