@@ -1,71 +1,5 @@
-# The following DestinationRule definitions enable mTLS between all services of
-# the bookinfo namespace and use only the v1 versions of the services.
-#
-# The productpage destination
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: productpage
-  namespace: bookinfo
-spec:
-  host: productpage.bookinfo.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
----
-# The reviews destination
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews
-  namespace: bookinfo
-spec:
-  host: reviews.bookinfo.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
----
-# The ratings destination
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: ratings
-  namespace: bookinfo
-spec:
-  host: ratings.bookinfo.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
----
-# The details destination
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: details
-  namespace: bookinfo
-spec:
-  host: details.bookinfo.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
----
-# The following VirtualService definitions route all the traffic to v1 of each microservice.
+# The following VirtualService definitions route all the traffic to v1 of each
+# microservice.
 #
 # The productpage service
 apiVersion: networking.istio.io/v1alpha3
@@ -81,6 +15,93 @@ spec:
     - destination:
         host: productpage.bookinfo.svc.cluster.local
         subset: v1
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
+---
+# The reviews service
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+  namespace: bookinfo
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews.bookinfo.svc.cluster.local
+        subset: v1
+---
+# The ratings service
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+  namespace: bookinfo
+spec:
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings.bookinfo.svc.cluster.local
+        subset: v1
+---
+# The details service
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: details
+  namespace: bookinfo
+spec:
+  hosts:
+  - details
+  http:
+  - route:
+    - destination:
+        host: details.bookinfo.svc.cluster.local
+        subset: v1
+---
+# The ingress gateway that exposes the application to the Internet.
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+  namespace: bookinfo
+spec:
+  selector:
+    istio: ingressgateway # use the istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "bookinfo.demo.example.com"
+---
+# The virtual service definition that exposes the productpage application to the Internet.
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+  namespace: bookinfo
+spec:
+  hosts:
+  - "bookinfo.demo.example.com"
+  gateways:
+  - bookinfo-gateway
+  http:
+  - match:
+    - uri:
+        exact: /productpage
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    - uri:
+        prefix: /api/v1/products
+    route:
+    - destination:
+        host: productpage.bookinfo.svc.cluster.local
+        port:
+          number: 9080
+---

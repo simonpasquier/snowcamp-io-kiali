@@ -1,3 +1,4 @@
+# This is a namespace-wide policy that enables mTLS for all services.
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:

@@ -155,10 +155,17 @@ Check with the Kiali graph that most of the errors go away.
 
 Istio can automatically setup mutual TLS (mTLS) between your services. The Citadel component will take care of certificate rotations while the proxies enforce traffic encryption and authentication.
 
+Switch back to use only `v1` for all services.
+
+```bash
+kubectl apply -f bookinfo/07_mtls/istio-bookinfo-v1.yaml
+```
+
 Turn on mTLS for all services.
 
 ```bash
-kubectl apply -f bookinfo/07_mtls/
+kubectl apply -f bookinfo/07_mtls/istio-destination-rule.yaml
+kubectl apply -f bookinfo/07_mtls/istio-policy.yaml
 ```
 
 ## Cleanup

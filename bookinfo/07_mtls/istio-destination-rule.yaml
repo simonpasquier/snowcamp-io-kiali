@@ -1,4 +1,5 @@
-# The following DestinationRule definition enforces mTLS traffic between all services of the bookinfo namespace.
+# The following DestinationRule definition enforces mTLS traffic between all
+# services of the bookinfo namespace.
 #
 # DestinationRule definitions aren't cumulative so if a more fine-grained DR
 # forgets to set trafficPolicy.mtls.mode to ISTIO_MUTUAL, the traffic will be
@@ -10,6 +11,73 @@ metadata:
   namespace: "bookinfo"
 spec:
   host: "*.bookinfo.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# The following DestinationRule definitions enable mTLS for the individual
+# destination rules.
+#
+# The productpage destination
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: productpage
+  namespace: bookinfo
+spec:
+  host: productpage.bookinfo.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# The reviews destination
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+  namespace: bookinfo
+spec:
+  host: reviews.bookinfo.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# The ratings destination
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ratings
+  namespace: bookinfo
+spec:
+  host: ratings.bookinfo.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# The details destination
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: details
+  namespace: bookinfo
+spec:
+  host: details.bookinfo.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
