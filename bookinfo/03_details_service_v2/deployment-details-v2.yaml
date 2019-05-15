@@ -10,8 +10,9 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
-        # Tell Prometheus to scrape the application's metrics
+        # Tell Prometheus to scrape the application's metrics.
         prometheus.io/scrape: "true"
+        prometheus.io/scheme: "http"
         prometheus.io/port: "9080"
         kiali.io/runtimes: "go,go-bookinfo-details"
       labels:
@@ -25,8 +26,9 @@ spec:
         args:
         - -listen-address
         - :9080
+        # cache responses to avoid rate-limiting.
         - -cache-expiry
-        - 5s
+        - 10s
         ports:
         - containerPort: 9080
 ---
